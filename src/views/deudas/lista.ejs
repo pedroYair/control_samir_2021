@@ -1,0 +1,72 @@
+<%- include("../base/cabecera", {tituloWeb: 'Deudores', tabla: 1}) %>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <% if (user.ROL == 'Administrador') { %>
+                        <a href="/deudores/add" class="btn btn-success btn-sm">Agregar</a>
+                    <% } %>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="tabla_registros" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Fecha registro</th>
+                                <th>Estado</th>
+                                <% if (user.ROL == 'Administrador') { %>
+                                    <th>Acciones</th>
+                                <% } %>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (deudores) { %>
+                                <% deudores.forEach(deudor => { %>
+                                    <tr>
+                                        <td>
+                                            <%= deudor.NOMBRE %>
+                                        </td>
+                                        <td>
+                                            <%= deudor.APELLIDO %>
+                                        </td>
+                                        <td>
+                                            <%= deudor.FECHA_REG.getDate()%>/
+                                                <%= deudor.FECHA_REG.getMonth() + 1 %>/
+                                                    <%= deudor.FECHA_REG.getFullYear() %>
+                                        </td>
+                                        <td>
+                                            <% if (deudor.ESTADO == 1) { %>
+                                                <a class="btn btn-sm btn-success" title="Activo"><i class="fa fa-check"></i></a>
+                                                <% } else { %>
+                                                    <a class="btn btn-sm btn-danger" title="Deshabilitado"><i class="fa fa-times"></i></a>
+                                                    <% } %>
+                                        </td>
+                                        <% if (user.ROL == 'Administrador') { %>
+                                            <td>
+                                                <a class="btn btn-warning" title="Editar" href="/deudores/edit/<%= deudor.ID %> ">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                            </td>
+                                        <% } %>
+                                        
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                                            </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <%- include("../base/footer", {tituloWeb: 'tabla'}) %>

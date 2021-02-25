@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 
 app.use("/", require("./routes/index.routes"));
 app.use('/auth', require("./routes/autenticacion.routes"));
-// app.use('/cursos', require("./routes/cursosRoutes"));
+app.use('/deudores', require("./routes/deudores.routes"));
 
 app.use((req, res, next) => {
     res.status(404).render("404");

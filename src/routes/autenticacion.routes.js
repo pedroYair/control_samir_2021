@@ -154,10 +154,9 @@ router.get("/perfil", isLoggedIn, async(req, res) => {
 
 // editar usuario (desde el perfil)
 router.post("/perfil", isLoggedIn, async(req, res) => {
-    const { email, telefono, password1, password2 } = req.body;
+    const { email, password1, password2 } = req.body;
     let valido = true;
     const usuario = {
-        TELEFONO: telefono,
         EMAIL: email
     };
 
