@@ -1,0 +1,48 @@
+<%- include("../base/cabecera.ejs", {tituloWeb: 'Nuevo estudiante', tabla: 0}) %>
+    <div class="register-box" style="margin-top: auto;">
+        <div class="register-box-body col-md-12">
+            <p class="login-box-msg">Registrar estudiante <br/> Los estudiantes registrados desde aquí serán matriculados automáticamente
+            </p>
+
+            <form action="/auth/register_est/<%= id %>" method="post">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Nombres" name="nombre" autofocus required>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Apellidos" name="apellido" required>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Identificacion" name="identificacion" required>
+                    <span class="glyphicon glyphicon-check form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Teléfono" name="telefono">
+                    <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" class="form-control" name="rol" value="Estudiante">
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="email" class="form-control" name="email" placeholder="Email">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" maxlength="10" name="password" placeholder="Contraseña">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-10">
+                        <a href="/matriculas/estudiantes_disp/<%= id %>" class="btn btn-primary btn-flat"><i class="fa fa-arrow-left"></i> Atrás</a>
+                        <button type="submit" class="btn btn-success btn-flat">Registrar</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+        </div>
+        <!-- /.form-box -->
+    </div>
+
+    <%- include("../base/footer", {tituloWeb: 'Nuevo estudiante'}) %>
