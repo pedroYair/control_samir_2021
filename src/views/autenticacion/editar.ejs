@@ -12,14 +12,6 @@
                     <input type="text" class="form-control" required placeholder="Apellidos" name="apellido" value="<%= usuario.APELLIDO %>">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Identificacion" name="identificacion" required value="<%= usuario.IDENTIFICACION %> ">
-                    <span class="glyphicon glyphicon-check form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    <input type="text" class="form-control" required placeholder="Teléfono" name="telefono" value="<%= usuario.TELEFONO %>">
-                    <span class="glyphicon glyphicon-phone form-control-feedback"></span>
-                </div>
                 <div class="form-group">
                     <select class="form-control" name="rol">
                         <% roles.forEach(element => { %>

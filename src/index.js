@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 // routes ------------------------------------------
 
 app.use("/", require("./routes/index.routes"));
-// app.use('/auth', require("./routes/autenticacionRoutes"));
+app.use('/auth', require("./routes/autenticacion.routes"));
 // app.use('/cursos', require("./routes/cursosRoutes"));
 
 app.use((req, res, next) => {

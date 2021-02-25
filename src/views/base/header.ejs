@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="/" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>-</b>PN</span>
+        <span class="logo-mini"><b>-</b>CS</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>My</b>BusinessPlan</span>
+        <span class="logo-lg"><b>Control</b>Samir</span>
     </a>
 
     <!-- Header Navbar -->
@@ -26,7 +26,7 @@
                         <img src="/assets/img/usuario.png" class="user-image" alt="User Image">
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span>
-                                Nombre del usuario
+                            <%= user.NOMBRE %>
                         </span>
                     </a>
                     <ul class="dropdown-menu">
@@ -34,17 +34,18 @@
                         <li class="user-header">
                             <img src="/assets/img/usuario.png" class="img-circle" alt="User Image">
                             <p>
-                                Nombre del usuario aqui
+                                <%= user.NOMBRE %>
+                                    <%= user.APELLIDO %>
                             </p>
-                            <p><span>nombre </span></p>
+                            <p><span><%= user.ROL %></span></p>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="/assets/auth/perfil" class="btn btn-default btn-flat">Perfil</a>
+                                <a href="/auth/perfil" class="btn btn-default btn-flat">Perfil</a>
                             </div>
                             <div class="pull-right">
-                                <a href="/assets/auth/logout" class="btn btn-default btn-flat">Salir</a>
+                                <a href="/auth/logout" class="btn btn-default btn-flat">Salir</a>
                             </div>
                         </li>
                     </ul>

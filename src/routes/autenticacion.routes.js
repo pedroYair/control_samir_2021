@@ -7,7 +7,7 @@ const { isLoggedIn, isNotLoggedIn, isAdmin, isDocente, isEstudiante } = require(
 const EmailCtrl = require('../controllers/emailControl');
 
 // lista de usuarios
-router.get("/", isLoggedIn, isAdmin, async(req, res) => {
+router.get("/", isLoggedIn, async(req, res) => {
     const usuarios = await cnx.query("SELECT * FROM usuarios ORDER BY APELLIDO");
     res.render("autenticacion/lista", { usuarios: usuarios });
 });
@@ -18,7 +18,7 @@ router.get("/register", isLoggedIn, isAdmin, (req, res) => {
 });
 
 // ejecutar registro de usuario
-router.post('/register', isLoggedIn, isAdmin, function(req, res, next) {
+router.post('/register', function(req, res, next) {
     passport.authenticate('localSignup', function(err, user, info) {
         if (err) { return next(err); }
         if (!user) { return res.redirect('/auth/register'); }
@@ -97,28 +97,27 @@ router.get("/confirmar_reset/:resp", isNotLoggedIn, (req, res) => {
 router.get("/edit/:id", isLoggedIn, isAdmin, async(req, res) => {
     const id = req.params.id;
     const usuario = await cnx.query("SELECT * FROM usuarios WHERE id = ? LIMIT 1", [id]);
-    const roles = ['Estudiante', 'Docente', 'Administrador'];
+    const roles = ['Administrador', 'Moderador'];
     res.render("autenticacion/editar", { usuario: usuario[0], roles: roles });
 });
 
 // editar usuario (por administrador)
 router.post("/edit/:id", isLoggedIn, isAdmin, async(req, res) => {
     const { id } = req.params;
-    const { nombre, apellido, identificacion, telefono, email, rol, estado } = req.body;
+    const { nombre, apellido, email, rol, estado } = req.body;
     const filas = await cnx.query("SELECT EMAIL FROM usuarios WHERE id = ? LIMIT 1", [id]);
     let notificacion = 'Usuario actualizado exitosamente';
 
     const usuario = {
         NOMBRE: nombre,
         APELLIDO: apellido,
-        IDENTIFICACION: identificacion,
-        TELEFONO: telefono,
         ROL: rol,
         ESTADO: estado
     };
 
     let clave_plana = "";
 
+    // se se hace cambio de email se envia correo electronico
     if (filas[0].EMAIL != email) {
         usuario.EMAIL = email;
         clave_plana = Math.floor((Math.random() * (99999 - 10000 + 1)) + 10000).toString();
@@ -131,7 +130,7 @@ router.post("/edit/:id", isLoggedIn, isAdmin, async(req, res) => {
 
         if (filas[0].EMAIL != email) {
             try {
-                const mensaje = `Sr(a) ${nombre} ${apellido} a continuación encontrará las nuevas credenciales de acceso a la plataforma: \n Email: ${email} \n Nueva contraseña: ${clave_plana}`;
+                const mensaje = `Hola Sr(a) ${nombre} ${apellido} a continuación encontrará las nuevas credenciales de acceso a la plataforma: \n Email: ${email} \n Nueva contraseña: ${clave_plana}`;
                 req.body.email = email;
                 req.body.mensaje = mensaje;
                 EmailCtrl.sendEmail(req);

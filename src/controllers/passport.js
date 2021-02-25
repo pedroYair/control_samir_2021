@@ -2,7 +2,7 @@ const passport = require("passport");
 const LocalStategy = require('passport-local').Strategy;
 const cnx = require("../config/databaseConecction");
 const helpers = require("./herlpers");
-// const EmailCtrl = require('./emailControl');
+const EmailCtrl = require('./emailControl');
 
 passport.use('localSignup', new LocalStategy({
     usernameField: 'email',
@@ -10,15 +10,13 @@ passport.use('localSignup', new LocalStategy({
     passReqToCallback: true
 }, async(req, username, password, done) => {
 
-    const { nombre, apellido, identificacion, telefono, rol } = req.body;
+    const { nombre, apellido, rol } = req.body;
     const newUser = {
         EMAIL: username,
         CLAVE: password,
         NOMBRE: nombre,
         APELLIDO: apellido,
-        IDENTIFICACION: identificacion,
-        ROL: rol,
-        TELEFONO: telefono
+        ROL: rol
     }
     newUser.CLAVE = await helpers.encryptPassword(password);
     const resultado = await cnx.query("INSERT INTO usuarios SET  ?", [newUser]);
@@ -26,13 +24,12 @@ passport.use('localSignup', new LocalStategy({
 
     if (resultado.insertId) {
         try {
-            /*
-            const mensaje = `Sr(a) ${nombre} ${apellido} a continuación encontrará las credenciales de acceso a la plataforma: \n Email: ${username} \n Contraseña: ${password}`;
+            
+            const mensaje = `Hola Sr(a) ${nombre} ${apellido} a continuación encontrará las credenciales de acceso a la plataforma: \n Email: ${username} \n Contraseña: ${password}`;
             req.body.email = username;
             req.body.mensaje = mensaje;
             EmailCtrl.sendEmail(req);
-            */
-
+            
             return done(null, newUser, req.flash("success", "Usuario registrado. Credenciales enviadas a: " + username));
         } catch (error) {
             return done(null, newUser, req.flash("message", "El usuario fue registrado pero las credenciales no pudieron ser enviadas a: " + username));
@@ -42,6 +39,7 @@ passport.use('localSignup', new LocalStategy({
     }
 }));
 
+// control de login
 passport.use('localLogin', new LocalStategy({
     usernameField: 'email', // atributo name del campo que almacena el nombre de usuario en el form
     passwordField: 'password', // atributo name del campo que almacena la contraseña en el form

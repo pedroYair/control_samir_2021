@@ -1,12 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const cnx = require("../config/databaseConecction");
-// const { isLoggedIn } = require('../controllers/auth');
+const { isLoggedIn } = require('../controllers/auth');
 
-router.get("/", async(req, res) => {
+router.get("/", isLoggedIn, async(req, res) => {
 
-   // res.send("inicio");
-   res.render("index");
+   let cantidad_usuarios = 0;
+
+   try {
+      const usuarios = await cnx.query("SELECT COUNT(ID) AS CANTIDAD FROM usuarios");
+      cantidad_usuarios = usuarios[0].CANTIDAD;
+   } catch (error) {
+      
+   }
+   res.render("index", {cantidad_usuarios: cantidad_usuarios});
 
 });
 

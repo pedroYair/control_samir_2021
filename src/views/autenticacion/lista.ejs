@@ -4,7 +4,9 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <a href="/auth/register" class="btn btn-success btn-sm">Agregar</a>
+                    <% if (user.ROL == 'Administrador') { %>
+                        <a href="/auth/register" class="btn btn-success btn-sm">Agregar</a>
+                    <% } %>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -13,44 +15,46 @@
                             <tr>
                                 <th>Nombres</th>
                                 <th>Apellidos</th>
-                                <th>Identificación</th>
                                 <th>Email</th>
                                 <th>Rol</th>
                                 <th>Estado</th>
-                                <th>Acciones</th>
+                                <% if (user.ROL == 'Administrador') { %>
+                                    <th>Acciones</th>
+                                <% } %>
+                                
                             </tr>
                         </thead>
                         <tbody>
                             <% if (usuarios) { %>
-                                <% usuarios.forEach(user => { %>
+                                <% usuarios.forEach(usuario => { %>
                                     <tr>
                                         <td>
-                                            <%= user.NOMBRE %>
+                                            <%= usuario.NOMBRE %>
                                         </td>
                                         <td>
-                                            <%= user.APELLIDO %>
+                                            <%= usuario.APELLIDO %>
                                         </td>
                                         <td>
-                                            <%= user.IDENTIFICACION %>
+                                            <%= usuario.EMAIL %>
                                         </td>
                                         <td>
-                                            <%= user.EMAIL %>
+                                            <%= usuario.ROL %>
                                         </td>
                                         <td>
-                                            <%= user.ROL %>
-                                        </td>
-                                        <td>
-                                            <% if (user.ESTADO == 1) { %>
+                                            <% if (usuario.ESTADO == 1) { %>
                                                 <a class="btn btn-sm btn-success" title="Activo"><i class="fa fa-check"></i></a>
                                                 <% } else { %>
                                                     <a class="btn btn-sm btn-danger" title="Deshabilitado"><i class="fa fa-times"></i></a>
                                                     <% } %>
                                         </td>
-                                        <td>
-                                            <a class="btn btn-warning" title="Editar" href="/auth/edit/<%= user.id %> ">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                        </td>
+                                        <% if (user.ROL == 'Administrador') { %>
+                                            <td>
+                                                <a class="btn btn-warning" title="Editar" href="/auth/edit/<%= usuario.id %> ">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                            </td>
+                                        <% } %>
+                                        
                                     </tr>
                                     <% }) %>
                                         <% } %>
