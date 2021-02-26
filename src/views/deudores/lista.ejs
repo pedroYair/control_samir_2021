@@ -47,7 +47,7 @@
                                         </td>
                                         <% if (user.ROL == 'Administrador') { %>
                                             <td>
-                                                <a class="btn btn-warning" title="Editar" href="/deudores/edit/<%= deudor.ID %> ">
+                                                <a class="btn btn-warning" id="deu<%= deudor.ID %>" title="Editar">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             </td>
@@ -67,6 +67,6 @@
     </div>
     <!-- /.row -->
 
+    <%- include("./editar") %>
 
-
-    <%- include("../base/footer", {tituloWeb: 'tabla'}) %>
+    <%- include("../base/footer", {tituloWeb: 'tabla', js_required: '1'}) %>

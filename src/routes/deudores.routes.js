@@ -3,7 +3,7 @@ const router = express.Router();
 const cnx = require("../config/databaseConecction");
 const { isLoggedIn, isAdmin } = require('../controllers/auth');
 
-// lista de usuarios
+// lista de deudores
 router.get("/", isLoggedIn, async(req, res) => {
     const deudores = await cnx.query("SELECT * FROM deudor ORDER BY NOMBRE");
     res.render("deudores/lista", { deudores: deudores });
@@ -37,7 +37,28 @@ router.post("/add", isLoggedIn, isAdmin, async(req, res) => {
 
 });
 
-// formulario nuevo deudor
+// permite obtener los datos del factor a modificar - por ajax
+router.post("/obtener_deudor", isLoggedIn, async(req, res) => {
+
+    const { idDeudor } = req.body;
+    let deudor = await cnx.query("SELECT * FROM deudor WHERE ID = ? LIMIT 1", [idDeudor]);
+
+    if (deudor.length == 1) {
+
+        deudor = deudor[0];
+        res.json({
+            id: deudor.ID,
+            nombre: deudor.NOMBRE,
+            apellido: deudor.APELLIDO,
+            estado: deudor.ESTADO
+        });
+    } else {
+        res.render("404");
+    }
+});
+
+/*
+// formulario editar deudor
 router.get("/edit/:id", isLoggedIn, isAdmin, async(req, res) => {
 
     const { id } = req.params;
@@ -51,21 +72,21 @@ router.get("/edit/:id", isLoggedIn, isAdmin, async(req, res) => {
         res.render("403");
     }
 });
+*/
 
-// ejecutar edicion de curso
-router.post("/edit/:id", isLoggedIn, isAdmin, async(req, res) => {
+// ejecutar edicion de deudor
+router.post("/edit", isLoggedIn, isAdmin, async(req, res) => {
 
-    const { id } = req.params;
-    const { nombre, apellido, estado } = req.body;
+    const { nombre_editar, apellido_editar, estado_editar, idDeudor } = req.body;
 
     const deudor = {
-        NOMBRE: nombre,
-        APELLIDO: apellido,
-        ESTADO: estado
+        NOMBRE: nombre_editar,
+        APELLIDO: apellido_editar,
+        ESTADO: estado_editar
     };
 
     try {
-        await cnx.query("UPDATE deudor SET ? WHERE ID = ? LIMIT 1", [deudor, id]);
+        await cnx.query("UPDATE deudor SET ? WHERE ID = ? LIMIT 1", [deudor, idDeudor]);
         req.flash("success", 'Deudor actualizado');
         res.redirect("/deudores");
 

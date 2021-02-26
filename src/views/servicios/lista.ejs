@@ -1,0 +1,62 @@
+<%- include("../base/cabecera", {tituloWeb: 'Servicios', tabla: 1}) %>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <a href="/servicios/add" class="btn btn-success btn-sm">Agregar</a>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="tabla_registros" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio unitario</th>
+                                <th>Estado</th>
+                                <th>Nota</th>
+                                <th>Acciones</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (servicios) { %>
+                                <% servicios.forEach(serv => { %>
+                                    <tr>
+                                        <td>
+                                            <%= serv.NOMBRE %>
+                                        </td>
+                                        <td>
+                                            <%= serv.VALOR_UNITARIO %>
+                                        </td>
+                                        <td>
+                                            <% if (serv.ESTADO == 1) { %>
+                                                <a class="btn btn-sm btn-success" title="Activo"><i class="fa fa-check"></i></a>
+                                                <% } else { %>
+                                                    <a class="btn btn-sm btn-danger" title="Deshabilitado"><i class="fa fa-times"></i></a>
+                                                    <% } %>
+                                        </td>
+                                        <td><%= serv.NOTA %></td>
+                                        <td>
+                                            <a class="btn btn-warning" title="Editar" href="/servicios/edit/<%= serv.ID %> ">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        </td>
+                                        
+                                        
+                                    </tr>
+                                    <% }) %>
+                                        <% } %>
+                                            </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+
+
+    <%- include("../base/footer", {tituloWeb: 'tabla'}) %>
