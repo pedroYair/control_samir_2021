@@ -25,7 +25,7 @@
 <!-- AdminLTE App -->
 <script src="/assets/js/adminlte.min.js"></script>
 
-<% if (['tabla'].indexOf(tituloWeb) >= 0) { %>
+<% if (['tabla', 'deudores', 'servicios'].indexOf(tituloWeb) >= 0) { %>
     <!-- DataTables -->
     <script src="/assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="/assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -44,8 +44,12 @@
     </script>
     <% } %>
 
-    <% if (js_required == "1") { %>
+    <% if (tituloWeb == "deudores") { %>
         <script src="/assets/js/deudores/ajax_editar.js"></script>
+
+        <% } else if (tituloWeb == "servicios") { %>
+            <script src="/assets/js/servicios/ajax_editar.js"></script>
+         
     <% } %>
 
     </body>

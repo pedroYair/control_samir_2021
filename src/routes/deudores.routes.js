@@ -57,23 +57,6 @@ router.post("/obtener_deudor", isLoggedIn, async(req, res) => {
     }
 });
 
-/*
-// formulario editar deudor
-router.get("/edit/:id", isLoggedIn, isAdmin, async(req, res) => {
-
-    const { id } = req.params;
-    let deudor = await cnx.query("SELECT * FROM deudor WHERE ID = ? LIMIT 1", [id]);
-    
-    if(deudor.length == 1)
-    {
-        res.render("deudores/editar", { deudor: deudor[0] });
-    }
-    else {
-        res.render("403");
-    }
-});
-*/
-
 // ejecutar edicion de deudor
 router.post("/edit", isLoggedIn, isAdmin, async(req, res) => {
 
@@ -94,6 +77,28 @@ router.post("/edit", isLoggedIn, isAdmin, async(req, res) => {
         req.flash("message", 'El deudor no pudo ser actualizado');
         res.redirect("/deudores/edit/" + id);
     }
+});
+
+// eliminar deudor
+router.get("/delete/:id", isLoggedIn, async(req, res) => {
+
+    const { id } = req.params;
+    const deudas = await cnx.query("SELECT COUNT(ID) AS CANTIDAD FROM deudas WHERE FK_DEUDOR = ?", [id]);
+
+    if (deudas[0].CANTIDAD == 0) {
+
+        try {
+            await cnx.query("DELETE FROM deudor WHERE ID = ? LIMIT 1", [id]);
+            req.flash("success", 'Deudor eliminado');
+
+        } catch (error) {
+            req.flash("message", 'El deudor no pudo ser eliminado');
+        }
+        
+    } else {
+        req.flash("message", 'No se puede eliminar a este deudor porque cuenta con deudas registradas');
+    }
+    res.redirect("/deudores");
 });
 
 module.exports = router;

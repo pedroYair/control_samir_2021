@@ -5,7 +5,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <% if (user.ROL == 'Administrador') { %>
-                        <a href="/deudores/add" class="btn btn-success btn-sm">Agregar</a>
+                        <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-default-agregar">Agregar</a>
                     <% } %>
                 </div>
                 <!-- /.box-header -->
@@ -50,6 +50,9 @@
                                                 <a class="btn btn-warning" id="deu<%= deudor.ID %>" title="Editar">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
+                                                <a href="/deudores/delete/<%= deudor.ID %>" class="btn btn-danger" title="Eliminar">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
                                             </td>
                                         <% } %>
                                         
@@ -67,6 +70,7 @@
     </div>
     <!-- /.row -->
 
+    <%- include("./agregar") %>
     <%- include("./editar") %>
 
-    <%- include("../base/footer", {tituloWeb: 'tabla', js_required: '1'}) %>
+    <%- include("../base/footer", {tituloWeb: 'deudores'}) %>

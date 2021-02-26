@@ -4,7 +4,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <a href="/servicios/add" class="btn btn-success btn-sm">Agregar</a>
+                    <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal-default-agregar">Agregar</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -37,7 +37,7 @@
                                         </td>
                                         <td><%= serv.NOTA %></td>
                                         <td>
-                                            <a class="btn btn-warning" title="Editar" href="/servicios/edit/<%= serv.ID %> ">
+                                            <a class="btn btn-warning" title="Editar" id="ser<%= serv.ID %>">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                         </td>
@@ -57,6 +57,7 @@
     </div>
     <!-- /.row -->
 
+    <%- include("./agregar") %>
+    <%- include("./editar") %>
 
-
-    <%- include("../base/footer", {tituloWeb: 'tabla'}) %>
+    <%- include("../base/footer", {tituloWeb: 'servicios'}) %>
