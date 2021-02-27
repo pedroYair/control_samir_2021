@@ -1,44 +1,51 @@
-<%- include("../base/cabecera.ejs", {tituloWeb: 'Editar deudor', tabla: 0}) %>
-    <div class="col-md-12">
-        <div class="box box-primary">
-            <!-- form start -->
-            <form role="/deudores/edit/<%= deudor.ID %> " autocomplete="off" method="POST">
-                <div class="box-body">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" maxlength="30" id="nombre" name="nombre" class="form-control" value="<%= deudor.NOMBRE %>" required>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="nombre">Apellido</label>
-                            <input type="text" maxlength="30" id="apellido" name="apellido" class="form-control" value="<%= deudor.APELLIDO %>" placeholder="Opcional">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <select class="form-control" name="estado">
-                                <% if (deudor.ESTADO == 1) { %>
-                                    <option selected value="1">Activo</option>
-                                    <option value="0">Deshabilitado</option>
-        
-                                    <% } else { %>
-                                        <option value="1">Activo</option>
-                                        <option selected value="0">Deshabilitado</option>
-                                <% } %>
-                            </select>
-                        </div>
-                    </div>
+<div class="modal fade" id="modal-default-editar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Editar deudor</h4>
             </div>
-                <!-- /.box-body -->
+            <div class="modal-body">
+                <form action="/deudores/edit" autocomplete="off" method="POST">
+                    <div class="box-body">
 
-                <div class="box-footer">
-                    <a href="/deudores" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Atrás</a>
-                    <button type="submit" class="btn btn-success">Guardar</button>
-                </div>
-            </form>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" maxlength="30" id="nombre_editar" name="nombre_editar" class="form-control" required>
+                            </div>
+    
+                            <div class="form-group col-md-6">
+                                <label for="nombre">Apellido</label>
+                                <input type="text" maxlength="30" id="apellido_editar" name="apellido_editar" class="form-control" placeholder="Opcional">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="estado_editar">Estado</label>
+                                <select class="form-control" name="estado_editar">
+                                    <option id="estado1" value="1">Activo</option>
+                                    <option id="estado0" value="0">Deshabilitado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" id="idDeudor" name="idDeudor" class="form-control" required/>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+            </div>
         </div>
+        <!-- /.modal-content -->
     </div>
-
-    <%- include("../base/footer", {tituloWeb: 'Editar deudor'}) %>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

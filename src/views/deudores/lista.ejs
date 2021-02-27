@@ -47,6 +47,9 @@
                                         </td>
                                         <% if (user.ROL == 'Administrador') { %>
                                             <td>
+                                                <a href="/deudas/add/<%= deudor.ID %>" class="btn btn-primary" title="Agregar deuda">
+                                                    <i class="fa fa-upload"></i>
+                                                </a>
                                                 <a class="btn btn-warning" id="deu<%= deudor.ID %>" title="Editar">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>

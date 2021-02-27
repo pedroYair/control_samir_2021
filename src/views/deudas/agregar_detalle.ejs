@@ -1,0 +1,49 @@
+<%- include("../base/cabecera.ejs", {tituloWeb: 'Agregar detalle de venta', tabla: 1}) %>
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <!-- form start -->
+            <form action="/deudas/add_detalle" autocomplete="off" method="POST">
+                <div class="box-body">
+
+                    <input type="hidden" class="form-control" id="idDeuda" name="idDeuda" value="<%= idDeuda %>" />
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="contrato">Servicio</label>
+                            <select class="form-control" id="idServicio" name="idServicio">
+                                <% servicios.forEach(ser => { %>
+                                    <option value="<%= ser.ID %>"><%= ser.NOMBRE %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="valor">Valor</label>
+                            <input type="number" min="50" class="form-control" id="valor" name="valor" required/>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="cantidad">Cantidad</label>
+                            <input type="number" min="1" class="form-control" id="cantidad" name="cantidad" placeholder="Opcional"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="nota">Nota</label>
+                            <textarea name="nota" id="nota" rows="2" class="form-control" placeholder="Opcional"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                    <a href="/deudas" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Atrás</a>
+                    <button type="submit" id="guardar" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <%- include("../base/footer", {tituloWeb: 'tabla'} ) %>
