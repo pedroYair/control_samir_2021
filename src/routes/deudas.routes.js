@@ -5,6 +5,9 @@ const { isLoggedIn } = require('../controllers/auth');
 
 // lista de deudas
 router.get("/", isLoggedIn, async(req, res) => {
+
+        
+    await cnx.query("DELETE FROM deudas WHERE TOTAL = 0");
     const deudas = await cnx.query("SELECT b.ID, NOMBRE, SUM(TOTAL) AS TOTAL FROM deudas AS a JOIN deudor AS b ON a.FK_DEUDOR = b.ID ORDER BY NOMBRE");
     res.render("deudas/lista", { deudas: deudas });
 });
@@ -57,7 +60,6 @@ router.post("/add_detalle", isLoggedIn, async(req, res) => {
     try {
         const resultado = await cnx.query("INSERT INTO detalle_deuda SET ?", [detalle]);
         req.flash("success", 'Detalle registrado');
-        // resultado.insertId
 
         if(resultado.insertId)
         {
@@ -81,7 +83,8 @@ router.get("/add_detalle/:idDeuda", isLoggedIn, async(req, res) => {
 
     if(deuda.length == 1 && servicios.length > 0)
     {
-        res.render("deudas/agregar_detalle", {idDeuda: idDeuda, servicios: servicios});
+        const detalle = await cnx.query("SELECT B.ID, NOMBRE, SUM(CANTIDAD) AS CANTIDAD, SUM(VALOR) AS VALOR FROM detalle_deuda AS A JOIN servicios AS B ON A.FK_SERVICIO = B.ID WHERE FK_DEUDA = ? GROUP BY FK_SERVICIO", [idDeuda]);
+        res.render("deudas/agregar_detalle", {idDeuda: idDeuda, servicios: servicios, detalle: detalle});
     }
     else{
         res.render("404");
@@ -89,26 +92,21 @@ router.get("/add_detalle/:idDeuda", isLoggedIn, async(req, res) => {
 });
 
 
-// eliminar deudor
-router.get("/delete/:id", isLoggedIn, async(req, res) => {
+// eliminar servicio del detalle de venta
+router.get("/delete/:idDeuda/:idServicio", isLoggedIn, async(req, res) => {
 
-    const { id } = req.params;
-    const deudas = await cnx.query("SELECT COUNT(ID) AS CANTIDAD FROM deudas WHERE FK_DEUDOR = ?", [id]);
+    const { idDeuda, idServicio } = req.params;
+    console.log(req.params);
 
-    if (deudas[0].CANTIDAD == 0) {
+    try {
+        await cnx.query("DELETE FROM detalle_deuda WHERE FK_DEUDA = ? AND FK_SERVICIO = ?", [idDeuda, idServicio]);
+        req.flash("success", 'Servicio eliminado del detalle de la deuda');
 
-        try {
-            await cnx.query("DELETE FROM deudor WHERE ID = ? LIMIT 1", [id]);
-            req.flash("success", 'Deudor eliminado');
-
-        } catch (error) {
-            req.flash("message", 'El deudor no pudo ser eliminado');
-        }
-        
-    } else {
-        req.flash("message", 'No se puede eliminar a este deudor porque cuenta con deudas registradas');
+    } catch (error) {
+        req.flash("message", 'El servicio no pudo ser eliminado del detalle de la deuda');
     }
-    res.redirect("/deudores");
+    
+    res.redirect("/deudas/add_detalle/" + idDeuda);
 });
 
 module.exports = router;

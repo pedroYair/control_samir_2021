@@ -25,23 +25,44 @@
 <!-- AdminLTE App -->
 <script src="/assets/js/adminlte.min.js"></script>
 
-<% if (['tabla', 'deudores', 'servicios'].indexOf(tituloWeb) >= 0) { %>
+<% if (['tabla', 'deudores', 'servicios', 'detalle'].indexOf(tituloWeb) >= 0) { %>
     <!-- DataTables -->
     <script src="/assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="/assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <!-- page script -->
-    <script>
-        $(function() {
-            $('#tabla_registros').DataTable({
-                'paging': true,
-                'lengthChange': true,
-                'searching': true,
-                'ordering': true,
-                'info': true,
-                'autoWidth': false
+    
+        <% if (tituloWeb != "detalle") { %>
+        <!-- page script -->
+        <script>
+            $(function() {
+                $('#tabla_registros').DataTable({
+                    'paging': true,
+                    'lengthChange': true,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false
+                })
             })
-        })
-    </script>
+        </script>
+
+        <% } else { %>
+         
+            <!-- page script -->
+            <script>
+                $(function() {
+                    $('#tabla_registros').DataTable({
+                        'paging': false,
+                        'lengthChange': true,
+                        'searching': false,
+                        'ordering': true,
+                        'info': false,
+                        'autoWidth': false
+                    })
+                })
+            </script>
+     
+        <% } %>
+    
     <% } %>
 
     <% if (tituloWeb == "deudores") { %>

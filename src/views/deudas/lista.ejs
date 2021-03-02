@@ -28,14 +28,14 @@
                                         <td>-----</td>
                                         <td>-----</td>
                                         <td>
+                                            <a href="#" class="btn btn-info" title="Detalle de deudas">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-success" title="Agregar abono">
+                                                <i class="fa fa-download"></i>
+                                            </a>
                                             <a href="/deudas/add/<%= deuda.ID %>" class="btn btn-primary" title="Agregar deuda">
                                                 <i class="fa fa-upload"></i>
-                                            </a>
-                                             <a class="btn btn-warning" id="#" title="Editar">
-                                                    <i class="fa fa-pencil"></i>
-                                            </a>
-                                            <a href="#" class="btn btn-danger" title="Eliminar">
-                                                    <i class="fa fa-trash"></i>
                                             </a>
                                          </td>
                                   
@@ -54,4 +54,4 @@
     </div>
     <!-- /.row -->
 
-    <%- include("../base/footer", {tituloWeb: 'deudas'}) %>
+    <%- include("../base/footer", {tituloWeb: 'tabla'}) %>

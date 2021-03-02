@@ -1,5 +1,7 @@
 <%- include("../base/cabecera.ejs", {tituloWeb: 'Agregar detalle de venta', tabla: 1}) %>
-    <div class="col-md-12">
+    
+<div class="row">
+    <div class="col-md-6">
         <div class="box box-primary">
             <!-- form start -->
             <form action="/deudas/add_detalle" autocomplete="off" method="POST">
@@ -19,7 +21,7 @@
 
                         <div class="form-group col-md-4">
                             <label for="valor">Valor</label>
-                            <input type="number" min="50" class="form-control" id="valor" name="valor" required/>
+                            <input type="number" min="50" step="50" class="form-control" id="valor" name="valor" required/>
                         </div>
 
                         <div class="form-group col-md-4">
@@ -46,4 +48,47 @@
         </div>
     </div>
 
-    <%- include("../base/footer", {tituloWeb: 'tabla'} ) %>
+<!--tabla detalle de la venta-->
+    <div class="col-md-6">
+        <div class="box box-primary">
+
+            <table id="tabla_registros" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Cantidad</th>
+                        <th>Valor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (detalle) { %>
+                        <% detalle.forEach(d => { %>
+                            <tr>
+                                <td>
+                                    <%= d.NOMBRE %>
+                                </td>
+                                <td>
+                                    <%= d.CANTIDAD %>
+                                </td>
+                                <td>
+                                    <%= d.VALOR %>
+                                </td>
+
+                                <td>
+                                    <a href="/deudas/delete/<%= idDeuda %>/<%= d.ID %>" class="btn btn-danger" title="Eliminar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                 </td>
+                            </tr>
+                            <% }) %>
+                                <% } %>
+                                    </tfoot>
+            </table>
+            
+
+        </div>
+    </div>
+</div>
+
+    <%- include("../base/footer", {tituloWeb: 'detalle'} ) %>
